@@ -1,0 +1,161 @@
+@fontColor: #E4E8EA;
+
+.sidebar-container {
+  width: 235px;
+  height: 100%;
+  min-height: 500px;
+  background-color: #fff;
+  border-right: 1px solid @fontColor;
+  box-shadow: 0 0 4px 0 rgba(54, 71, 134, 0.1);
+  overflow-y: scroll;
+
+  .suanfa-name {
+    padding-left: 6px;
+  }
+
+  .ant-collapse-content-box {
+    padding: 6px !important;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ant-collapse-item {
+    border-bottom: none;
+  }
+
+  .custom-svg {
+    width: 36px;
+    height: 46px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    cursor: move;
+    left: 2px;
+    top: 2px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: -0.15em;
+    overflow: hidden;
+
+    &.small-icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  .ant-collapse-header {
+    background-color: #FFFFFF;
+    border: 1px solid fontColor;
+    border-top: none;
+    border-right: none;
+    height: 30px;
+    color: #666666;
+
+    &:hover {
+      background-color: #def1f6;
+    }
+
+    .arrow {
+      line-height: 0 !important;
+      transform: scale(0.8) !important;
+      top: 35% !important;
+    }
+  }
+
+  .ant-collapse-content {
+    border-bottom: 1px solid fontColor;
+  }
+}
+
+.custom-sidebar-node {
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: move;
+  box-sizing: border-box;
+  font-size: 12px;
+  text-align: center;
+  // float:left
+  margin: 2px;
+  cursor: move;
+  text-decoration: none;
+
+  .tooltip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // &.common-panel-node {
+  // width: 46px;
+  // height: 46px;
+  // padding: 0px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // }
+  &:hover {
+    background-color: #FBFBFB;
+    border: 1px solid #DEE0EA;
+    border-radius: 2px;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+
+  &.suanfa-node {
+    width: 180px;
+    height: 24px;
+    flex-direction: row;
+    justify-content: start;
+    padding: 0 6px;
+  }
+
+  .sidebar-node-image {
+    width: 31px;
+    height: 31px;
+  }
+
+  .sidebar-node-label {
+    padding-top: 6px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 14px;
+    line-height: 14px;
+    box-sizing: content-box;
+    white-space: nowrap;
+    width: 63px;
+  }
+
+  .svg-node {
+    width: 36px;
+    height: 36px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    cursor: move;
+
+    .text-node {
+      display: inline-block;
+      font-size: 12px;
+      font-family: Helvetica;
+      color: #666;
+      line-height: 1.2;
+      vertical-align: top;
+      width: 24px;
+      white-space: normal;
+      overflow-wrap: normal;
+      text-align: center;
+    }
+  }
+}

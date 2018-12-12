@@ -1,0 +1,37 @@
+<shapes name="mxgraph.general">
+
+  <shape name="Rectangle" h="60" w="120" aspect="variable" strokewidth="inherit">
+    <connections>
+      <constraint x="0.5" y="0" perimeter="0" name="N"/>
+      <constraint x="0.5" y="1" perimeter="0" name="S"/>
+      <constraint x="0" y="0.5" perimeter="0" name="W"/>
+      <constraint x="1" y="0.5" perimeter="0" name="E"/>
+    </connections>
+    <background>
+      <path>
+      </path>
+      <rect x="0" y="0" w="120" h="60"/>
+    </background>
+    <foreground>
+      <fillstroke/>
+    </foreground>
+  </shape>
+
+  <shape name="Rounded Rectangle" h="60" w="120" aspect="variable" strokewidth="inherit">
+    <connections>
+      <constraint x="0.5" y="0" perimeter="0" name="N"/>
+      <constraint x="0.5" y="1" perimeter="0" name="S"/>
+      <constraint x="0" y="0.5" perimeter="0" name="W"/>
+      <constraint x="1" y="0.5" perimeter="0" name="E"/>
+    </connections>
+    <background>
+      <path>
+      </path>
+      <rect x="0" y="0" w="120" h="60" fill="#ffffff" rx="5" ry="5"/>
+    </background>
+    <foreground>
+      <fillstroke/>
+    </foreground>
+  </shape>
+
+</shapes>

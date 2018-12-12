@@ -1,0 +1,19 @@
+<shapes  name="mxgraph.others">
+
+  <shape w="59" h="47" name="hello" strokewidth="inherit">
+    <svg width="59px" height="47px" viewBox="0 0 59 47" version="1.1" 
+      xmlns="http://www.w3.org/2000/svg" 
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+      <title>Combined Shape Copy 3@2x</title>
+      <desc>Created with Sketch.</desc>
+      <defs></defs>
+      <g id="知识图谱" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Tablet-Copy-3" transform="translate(-45.000000, -112.000000)" fill="#FFFFFF" stroke="#A7B8D3">
+          <path d="M61,142 L74,131 L87,139 L87,150 L80,158 L70,156 L61,151 L61,142 Z M51,126 L60,129 L60,137 L54,144 L48,142 L46,132 L51,126 Z M64,113 L77,113 L79,120 L73,126 L63,124 L61,119 L64,113 Z M96,137 L103,137 L103,145 L95,147 L93,145 L96,137 Z M89,116 L98,120 L101,127 L95,133 L85,131 L85,120 L89,116 Z" id="Combined-Shape-Copy-3"></path>
+        </g>
+      </g>
+    </svg>
+  </shape>
+
+</shapes>
