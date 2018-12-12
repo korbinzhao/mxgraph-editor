@@ -1,5 +1,5 @@
 # mxgraph-editor
-mxgraph 编辑器
+mxgraph editor
 
 # development
 ```

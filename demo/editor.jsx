@@ -2,8 +2,8 @@ import React from 'react';
 import { message, Layout } from 'antd';
 import PropTypes from 'prop-types';
 
-import Sidebar from '../src/sidebar';
-import Toolbar from '../src/toolbar';
+import Sidebar from './sidebar';
+import Toolbar from './toolbar';
 import Graph from '../src/graph';
 
 import util from '../common/util';
