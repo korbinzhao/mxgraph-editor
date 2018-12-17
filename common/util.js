@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import DEFAULT_CARD_SHAPES from '../config/card-shape';
 import DEFAULT_IMAGE_SHAPES from '../config/image-shape';
 
@@ -117,7 +116,9 @@ export default {
 
   //  从配置文件中读取并配置图形
   configShapes(config) {
-    const { graph, IMAGE_SHAPES, CARD_SHAPES } = config;
+    const {
+      graph, IMAGE_SHAPES, CARD_SHAPES, SVG_SHAPES 
+    } = config;
 
     const { stylesheet } = graph;
     const vertexStyle = stylesheet.getDefaultVertexStyle();
@@ -131,6 +132,7 @@ export default {
 
     const cardShapes = CARD_SHAPES || DEFAULT_CARD_SHAPES;
     const imageShapes = IMAGE_SHAPES || DEFAULT_IMAGE_SHAPES;
+    const svgShapes = { custom: SVG_SHAPES, ...STENCILS };
 
     this.imageShapes = imageShapes;
 
@@ -165,10 +167,10 @@ export default {
       });
 
     // 配置 SVG 图形
-    STENCILS
-      && Object.keys(STENCILS).forEach((name) => {
+    svgShapes
+      && Object.keys(svgShapes).forEach((name) => {
         const parser = new DOMParser (); //eslint-disable-line
-        const xmlDoc = parser.parseFromString(STENCILS[name], 'text/xml'); // important to use "text/xml"
+        const xmlDoc = parser.parseFromString(svgShapes[name], 'text/xml'); // important to use "text/xml"
         const root = xmlDoc.firstChild;
         let shape = root.firstChild;
 
@@ -210,9 +212,10 @@ export default {
           }
           shapeStyle = GENERAL_SHAPES[shapeName].style;
         } else if (shapeType === 'image') {
-          const shape = _.find(this.imageShapes, {
+          const shape = this.findItemFromArray(this.imageShapes, {
             key: shapeName,
           });
+
           const img = shape.logo;
 
           shapeStyle = `shape=image;html=1;verticalLabelPosition=bottom;fontColor:#fff;verticalAlign=top;imageAspect=0;image=${img}`;
@@ -1570,23 +1573,20 @@ export default {
     graph.container.style.cursor = 'auto';
   },
 
-  parseQuery(url) {
-    if (!url) {
-      return false;
-    }
+  // 从数组中按筛选条件选择对象
+  findItemFromArray(arr, query) {
+    const key = Object.keys(query)[0];
+    const value = query[key];
 
-    const query = url.split('?')[1];
+    let result;
 
-    const arr = query && query.split('&');
-
-    const params = {};
-
-    let tempArr;
     arr && arr.forEach((item) => {
-      tempArr = item.split('=');
-      params[tempArr[0]] = tempArr[1]; // eslint-disable-line
+      if (item && item[key] === value) {
+        result = item;
+      }
     });
 
-    return params;
-  },
+    return result;
+  }
+
 };

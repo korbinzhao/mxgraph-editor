@@ -1,18 +1,19 @@
 import React from 'react';
 import { message, Layout } from 'antd';
-import PropTypes from 'prop-types';
 
 import Sidebar from './sidebar';
 import Toolbar from './toolbar';
-import Graph from '../src/graph';
+import Editor from '../src/editor';
 
-import util from '../common/util';
+import IMAGE_SHAPES from './shape-config/image-shape';
+import CARD_SHAPES from './shape-config/card-shape';
+import SVG_SHAPES from './shape-config/svg-shape.xml';
 
-import './editor.less';
+import './my-editor.less';
 
 const { Sider, Content } = Layout;
 
-class Editor extends React.Component {
+class MyEditor extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,18 +24,10 @@ class Editor extends React.Component {
     this.graphContainerClickCount = 0;
   }
 
-  componentWillMount() {
-    const urlParams = util.parseQuery(window.location.hash);
-
-    const templateId = urlParams.projectId;
-
-    this.templateId = templateId;
-  }
-
   componentDidMount() {
     this.mounted = true;
 
-    const graph = new Graph({
+    const editor = new Editor({
       container: '.graph-content',
       clickFunc: this.clickFunc,
       doubleClickFunc: this.doubleClickFunc,
@@ -42,28 +35,31 @@ class Editor extends React.Component {
       cellCreatedFunc: this.cellCreatedFunc,
       deleteFunc: this.deleteFunc,
       valueChangeFunc: this.valueChangeFunc,
+      IMAGE_SHAPES,
+      CARD_SHAPES,
+      SVG_SHAPES
     });
 
-    this.graph = graph;
+    this.editor = editor;
   }
 
   componentWillUnmount() {
     this.mounted = false;
 
     // 组件销毁时，移除 graph 的全局事件
-    this.graph.removeEventListeners();
+    this.editor.removeEventListeners();
   }
 
 
   /**
    * 双击事件回调
    */
-  doubleClickFunc = () => {
-    
+  doubleClickFunc = (cell) => {
+    console.log('double click', cell);
   };
 
   cellCreatedFunc = (currentCell) => {
-    const allCells = this.graph.getAllCells();
+    const allCells = this.editor.getAllCells();
 
     let sameShapeNameCount = 0;
     const { shapeName } = currentCell;
@@ -77,11 +73,11 @@ class Editor extends React.Component {
 
     const labelName = currentCell.value;
 
-    this.graph.renameCell(`${labelName}${sameShapeNameCount}`, currentCell);
+    this.editor.renameCell(`${labelName}${sameShapeNameCount}`, currentCell);
   };
 
   deleteFunc = (cells) => {
-    const cellsDeleted = [];
+    console.log('已删除 cells: ', cells);
   };
 
   /**
@@ -99,18 +95,12 @@ class Editor extends React.Component {
     if (newValue && newValue.length <= 18) {
       this.renameDictName(nodeId, newValue);
     } else if (newValue && newValue.length > 18) {
-      setTimeout(() => { this.graph.renameCell(oldValue, cell); }, 500);
+      setTimeout(() => { this.editor.renameCell(oldValue, cell); }, 500);
       message.warn('节点命名长度不能超过18');
     }
   };
 
-  updateDiagramData = (data) => {
-    console.log('updateDiagramData', data);
-  }
-
   autoSaveFunc = (xml) => {
-    this.updateDiagramData(xml);
-
     window.autosaveXml = xml;
 
     const oParser = new DOMParser (); // eslint-disable-line
@@ -130,12 +120,12 @@ class Editor extends React.Component {
       <div className="editor-container">
         <Layout>
           <Sider width="235" theme="light">
-            <Sidebar key="sidebar" graph={this.graph} nodeList={nodeList} />
+            <Sidebar key="sidebar" graph={this.editor} nodeList={nodeList} />
           </Sider>
           <Content>
             <div className="graph-inner-container">
               <Toolbar
-                graph={this.graph}
+                graph={this.editor}
                 updateDiagramData={this.updateDiagramData}
                 createVertexInDB={this.createVertexInDB}
                 templateId={this.templateId}
@@ -149,10 +139,4 @@ class Editor extends React.Component {
   }
 }
 
-Editor.propTypes = {
-};
-
-Editor.defaultProps = {
-};
-
-export default Editor;
+export default MyEditor;

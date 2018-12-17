@@ -1,3 +1,3 @@
-import Graph from './graph';
+import Editor from './editor';
 
-export default Graph;
+export default Editor;

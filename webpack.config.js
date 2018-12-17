@@ -1,4 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const postcssImport = require('postcss-import');
+const postcssCssnext = require('postcss-cssnext');
+const cssnano = require('cssnano');
 
 module.exports = {
   resolve: {
@@ -42,12 +45,11 @@ module.exports = {
         options: {
           ident: 'postcss',
           plugins: loader => [
-            require('postcss-import')({
+            postcssImport({
               root: loader.resourcePath
             }),
-            require('postcss-cssnext')(),
-            require('autoprefixer')(),
-            require('cssnano')()
+            postcssCssnext(),
+            cssnano()
           ]
         }
       },

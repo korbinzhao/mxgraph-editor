@@ -21,7 +21,7 @@ export default class Graph {
       containerEle = container;
     }
 
-    const mxgraph = new mxGraph(containerEle); // eslint-disable-line
+    const graph = new mxGraph(containerEle); // eslint-disable-line
 
     // Disables the built-in context menu
     mxEvent.disableContextMenu(containerEle); // eslint-disable-line
@@ -31,21 +31,21 @@ export default class Graph {
 
     this.initEditor({
       ...props,
-      mxgraph,
+      graph,
     });
 
-    this.mxgraph = mxgraph;
+    this.graph = graph;
     this.cellCreatedFunc = cellCreatedFunc;
     this.valueChangeFunc = valueChangeFunc;
 
     // test
-    window.mxgraph = mxgraph;
+    window.graph = graph;
     window.editorThis = this;
   }
 
   initEditor(config) { // eslint-disable-line
     const {
-      mxgraph,
+      graph,
       clickFunc,
       doubleClickFunc,
       autoSaveFunc,
@@ -53,82 +53,88 @@ export default class Graph {
       deleteFunc,
       valueChangeFunc,
       changeFunc,
+      IMAGE_SHAPES,
+      CARD_SHAPES,
+      SVG_SHAPES
     } = config;
 
-    mxgraph.gridSize = 30;
+    graph.gridSize = 30;
 
-    mxgraph.setTooltips(true);
+    graph.setTooltips(true);
 
     // Disables the built-in context menu
     mxEvent.disableContextMenu(this.containerEle); // eslint-disable-line
 
     // Uncomment the following if you want the container
     // to fit the size of the graph
-    // mxgraph.setResizeContainer(true);
+    // graph.setResizeContainer(true);
 
-    util.initGraph({ graph: mxgraph });
+    util.initGraph({ graph });
 
-    util.initZoomConfig({ graph: mxgraph });
+    util.initZoomConfig({ graph });
 
     // 配置自定义图形
     util.configShapes({
-      graph: mxgraph,
+      graph,
+      IMAGE_SHAPES,
+      CARD_SHAPES,
+      SVG_SHAPES
     });
 
     // // 配置undo、redo事件监听
     // util.undoListener({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     // // 复制监听
     // util.copyListener({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     // 删除监听
     util.deleteListener({
-      graph: mxgraph,
+      graph,
       callback: deleteFunc,
     });
 
     // 连线处理器
     util.connectorHandler({
-      graph: mxgraph,
+      graph,
     });
 
     // // 初始化 pop 菜单
     // util.initPopupMenu({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     // util.initVertexToolHandler({
-    //   graph: mxgraph
+    //   graph: graph
     // });
 
     util.handleDoubleClick({
-      graph: mxgraph,
+      graph,
       callback: doubleClickFunc,
     });
 
     util.handleClick({
-      graph: mxgraph,
+      graph,
       callback: clickFunc,
     });
 
     util.handleHover({
-      graph: mxgraph,
+      graph,
       callback: hoverFunc,
     });
 
     util.handleChange({
-      graph: mxgraph,
+      graph,
       callback: changeFunc,
     });
 
-    // util.htmlLable ({mxgraph});
+    // util.htmlLable ({graph});
 
     util.initAutoSave({
-      graph: mxgraph,
+      graph,
       callback: autoSaveFunc,
     });
 
@@ -137,35 +143,35 @@ export default class Graph {
     });
 
     // util.renderGraphFromXml({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     // util.initAutoLayout ({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     // util.initCustomPort({
-    //   graph: mxgraph,
+    //   graph: graph,
     // });
 
     const sidebarItems = document.querySelectorAll('.custom-sidebar-node');
 
     util.initSidebar({
-      graph: mxgraph,
+      graph,
       sidebarItems,
       cellCreatedFunc: this.cellCreatedFunc,
     });
 
-    // util.parsePropsInSvg({mxgraph});
+    // util.parsePropsInSvg({graph});
 
     // Enables rubberband selection
-    // new mxRubberband(mxgraph); // eslint-disable-line
+    // new mxRubberband(graph); // eslint-disable-line
   }
 
   // 初始化侧边栏
   initSidebar(sidebarItems) {
     return util.initSidebar({
-      graph: this.mxgraph,
+      graph: this.graph,
       sidebarItems,
       cellCreatedFunc: this.cellCreatedFunc,
     });
@@ -175,7 +181,7 @@ export default class Graph {
   initCustomPort(pic) {
     return util.initCustomPort({
       pic,
-      graph: this.mxgraph,
+      graph: this.graph,
     });
   }
 
@@ -186,7 +192,7 @@ export default class Graph {
   zoom(type) {
     return util.zoom({
       type,
-      graph: this.mxgraph,
+      graph: this.graph,
     });
   }
 
@@ -198,14 +204,14 @@ export default class Graph {
    * @param {*} value 新样式的 value
    */
   updateStyle(cell, key, value) {
-    return util.updateStyle(this.mxgraph, cell, key, value);
+    return util.updateStyle(this.graph, cell, key, value);
   }
 
   // 组合
   groupCells(groupId, labelName) {
-    const cellsGrouped = this.mxgraph.getSelectionCells();
+    const cellsGrouped = this.graph.getSelectionCells();
 
-    const cell = this.mxgraph.groupCells();
+    const cell = this.graph.groupCells();
     cell.cellId = groupId;
     cell.value = labelName;
     cell.isGroupCell = true;
@@ -214,11 +220,11 @@ export default class Graph {
       item.isGrouped = true;
     });
 
-    // util.updateStyle(this.mxgraph, cell, 'strokeColor', 'none');
-    util.updateStyle(this.mxgraph, cell, 'fillColor', 'none');
-    util.updateStyle(this.mxgraph, cell, 'dashed', 1);
-    util.updateStyle(this.mxgraph, cell, 'verticalLabelPosition', 'bottom');
-    util.updateStyle(this.mxgraph, cell, 'verticalAlign', 'top');
+    // util.updateStyle(this.graph, cell, 'strokeColor', 'none');
+    util.updateStyle(this.graph, cell, 'fillColor', 'none');
+    util.updateStyle(this.graph, cell, 'dashed', 1);
+    util.updateStyle(this.graph, cell, 'verticalLabelPosition', 'bottom');
+    util.updateStyle(this.graph, cell, 'verticalAlign', 'top');
 
     return { groupCell: cell, cellsGrouped };
   }
@@ -241,7 +247,7 @@ export default class Graph {
    * 取消组合
    */
   ungroupCells(cells) {
-    const tempCells = cells || this.mxgraph.getSelectionCells();
+    const tempCells = cells || this.graph.getSelectionCells();
 
     const groupCells = [];
 
@@ -265,12 +271,12 @@ export default class Graph {
 
     this.handleUngroupCells(groupCells);
 
-    return this.mxgraph.ungroupCells(groupCells);
+    return this.graph.ungroupCells(groupCells);
   }
 
   // 获取当前选中的所有 cell
   getCellsSelected() {
-    return this.mxgraph.getSelectionCells();
+    return this.graph.getSelectionCells();
   }
 
   /**
@@ -279,7 +285,7 @@ export default class Graph {
    */
   renderGraphFromXml(xml) {
     return util.renderGraphFromXml({
-      graph: this.mxgraph,
+      graph: this.graph,
       xml,
     });
   }
@@ -289,7 +295,7 @@ export default class Graph {
    */
   getGraphXml() {
     const xml = util.getGraphXml({
-      graph: this.mxgraph,
+      graph: this.graph,
     });
 
     const xmlStr = new XMLSerializer().serializeToString(xml); // eslint-disable-line
@@ -316,9 +322,9 @@ export default class Graph {
    * @param {*} v2 节点2
    */
   insertEdge(v1, v2) {
-    const parent = this.mxgraph.getDefaultParent();
+    const parent = this.graph.getDefaultParent();
 
-    return this.mxgraph.insertEdge(parent, null, '', v1, v2);
+    return this.graph.insertEdge(parent, null, '', v1, v2);
   }
 
   /**
@@ -326,7 +332,7 @@ export default class Graph {
    * @param {*} id id
    */
   getCellById(id) {
-    const { cells } = this.mxgraph.model;
+    const { cells } = this.graph.model;
 
     let cell;
 
@@ -343,7 +349,7 @@ export default class Graph {
    * 获取当前画布所有 cell
    */
   getAllCells() {
-    const { cells } = this.mxgraph.model;
+    const { cells } = this.graph.model;
     return cells;
   }
 
@@ -358,28 +364,28 @@ export default class Graph {
    * @param {*} cell 要修改的 cell
    */
   renameCell(newName, cell) {
-    return util.renameCell(newName, cell, this.mxgraph);
+    return util.renameCell(newName, cell, this.graph);
   }
 
   /**
    * 重新渲染画布
    */
   refresh() {
-    return this.mxgraph.refresh();
+    return this.graph.refresh();
   }
 
   /**
    * 清除当前选择
    */
   clearSelection() {
-    return this.mxgraph.clearSelection();
+    return this.graph.clearSelection();
   }
 
   startPanning() {
-    return util.startPanning(this.mxgraph);
+    return util.startPanning(this.graph);
   }
 
   stopPanning() {
-    return util.stopPanning(this.mxgraph);
+    return util.stopPanning(this.graph);
   }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Editor from './editor';
+import MyEditor from './my-editor';
 import './index.less';
 
 const App = () => (
   <div className="mxgraph-editor-container">
-    <Editor />
+    <MyEditor />
   </div>
 );
 

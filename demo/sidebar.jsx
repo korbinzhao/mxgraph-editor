@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapse, Tooltip } from 'antd';
-import IMAGE_SHAPES from '../config/image-shape';
+import IMAGE_SHAPES from './shape-config/image-shape';
 
 import './sidebar.less';
 
@@ -52,6 +52,35 @@ const BASIC_SHAPES = [
   },
 ];
 
+const SVG_SHAPES = [{
+  name: '上网电量',
+  key: 'shangwangdianliang',
+  logo: 'https://img.alicdn.com/tfs/TB1i4I1wxTpK1RjSZR0XXbEwXXa-80-80.svg',
+  width: 80,
+  height: 80,
+},
+{
+  name: '发电收益',
+  key: 'fadianshouyi',
+  logo: 'https://img.alicdn.com/tfs/TB1MVA2wr2pK1RjSZFsXXaNlXXa-80-80.svg',
+  width: 80,
+  height: 80,
+},
+{
+  name: '告警监视',
+  key: 'gaojingjianshi',
+  logo: 'https://img.alicdn.com/tfs/TB1DildwNYaK1RjSZFnXXa80pXa-80-80.svg',
+  width: 80,
+  height: 80,
+},
+{
+  name: '发电量',
+  key: ' fadianliang',
+  logo: 'https://img.alicdn.com/tfs/TB1X5Z5wpzqK1RjSZFoXXbfcXXa-80-80.svg',
+  width: 80,
+  height: 80,
+}];
+
 export default class SideBar extends React.Component {
   constructor(props) {
     super(props);
@@ -96,7 +125,7 @@ export default class SideBar extends React.Component {
 
         <Collapse
           bordered={false}
-          defaultActiveKey={['common', 'general']}
+          defaultActiveKey={['common', 'svg', 'picture']}
           onChange={() => {
             this.onChange();
           }}
@@ -129,8 +158,34 @@ export default class SideBar extends React.Component {
             ))}
 
           </Panel>
-          <Panel header="常用组件" key="general">
 
+          <Panel header="SVG组件" key="svg">
+            {SVG_SHAPES.map(shape => (
+              <a
+                href="javascript:void(0);"
+                key={`panel_a_${shape.key}`}
+                className="geItem custom-sidebar-node common-panel-node"
+                data-shape-type="svg"
+                data-shape-name={shape.key}
+                data-shape-label={shape.name}
+                data-shape-width={shape.width}
+                data-shape-height={shape.height}
+              >
+                <Tooltip
+                  placement="top"
+                  title={shape.name}
+                  key={`panel_${shape.key}`}
+                  className="tooltip"
+                >
+                  <img className="sidebar-node-image" src={shape.logo} alt="" />
+                  <span className="sidebar-node-label">
+                    {shape.name}
+                  </span>
+                </Tooltip>
+              </a>
+            ))}
+          </Panel>
+          <Panel header="图片组件" key="picture">
             {IMAGE_SHAPES.map(shape => (
               <a
                 onClick={(e) => {
