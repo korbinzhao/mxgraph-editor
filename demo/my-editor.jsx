@@ -120,21 +120,17 @@ class MyEditor extends React.Component {
   };
 
   render() {
-    const { nodeList } = this.state;
-
     return (
       <div className="editor-container">
         <Layout>
           <Sider width="235" theme="light">
-            <Sidebar key="sidebar" graph={this.editor} nodeList={nodeList} />
+            <Sidebar key="sidebar" graph={this.editor} />
           </Sider>
           <Content>
             <div className="graph-inner-container">
               <Toolbar
                 graph={this.editor}
                 updateDiagramData={this.updateDiagramData}
-                createVertexInDB={this.createVertexInDB}
-                templateId={this.templateId}
               />
               <div className="graph-content" key="graphcontent" />
             </div>
