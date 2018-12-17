@@ -72,13 +72,6 @@ const SVG_SHAPES = [{
   logo: 'https://img.alicdn.com/tfs/TB1DildwNYaK1RjSZFnXXa80pXa-80-80.svg',
   width: 80,
   height: 80,
-},
-{
-  name: '发电量',
-  key: ' fadianliang',
-  logo: 'https://img.alicdn.com/tfs/TB1X5Z5wpzqK1RjSZFoXXbfcXXa-80-80.svg',
-  width: 80,
-  height: 80,
 }];
 
 export default class SideBar extends React.Component {

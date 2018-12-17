@@ -41,6 +41,10 @@ class MyEditor extends React.Component {
     });
 
     this.editor = editor;
+
+    const xml = window.localStorage.getItem('autosaveXml');
+
+    this.editor.renderGraphFromXml(xml);
   }
 
   componentWillUnmount() {
@@ -107,6 +111,8 @@ class MyEditor extends React.Component {
     const oDOM = oParser.parseFromString(xml, 'application/xml');
 
     window.autoSaveXmlDom = oDOM;
+
+    window.localStorage.setItem('autosaveXml', xml);
   };
 
   clickFunc = (cell) => {
