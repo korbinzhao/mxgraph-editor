@@ -74,6 +74,14 @@ const SVG_SHAPES = [{
   height: 80,
 }];
 
+const CARD_SHAPES = [{
+  name: '主设备',
+  key: 'zhushebei',
+  logo: 'https://img.alicdn.com/tfs/TB1eD9LdgHqK1RjSZJnXXbNLpXa-144-128.png',
+  width: 100,
+  height: 80
+}];
+
 export default class SideBar extends React.Component {
   constructor(props) {
     super(props);
@@ -118,7 +126,7 @@ export default class SideBar extends React.Component {
 
         <Collapse
           bordered={false}
-          defaultActiveKey={['common', 'svg', 'picture']}
+          defaultActiveKey={['common', 'svg', 'picture', 'card']}
           onChange={() => {
             this.onChange();
           }}
@@ -189,6 +197,40 @@ export default class SideBar extends React.Component {
                 href="a"
                 className="geItem custom-sidebar-node"
                 data-shape-type="image"
+                data-shape-width={shape.width}
+                data-shape-height={shape.height}
+                data-shape-name={shape.key}
+                data-shape-label={shape.name}
+                title={shape.name}
+              >
+                <Tooltip
+                  placement="top"
+                  title={shape.name}
+                  key={`panel_${shape.key}`}
+                  className="tooltip"
+                >
+                  <img className="sidebar-node-image" src={shape.logo} alt="" />
+                  <span className="sidebar-node-label">
+                    {shape.name}
+                  </span>
+                </Tooltip>
+
+              </a>
+            ))}
+
+          </Panel>
+
+          <Panel header="卡片组件" key="card">
+            {CARD_SHAPES.map(shape => (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  return false;
+                }}
+                key={`panel_a_${shape.key}`}
+                href="a"
+                className="geItem custom-sidebar-node"
+                data-shape-type="card"
                 data-shape-width={shape.width}
                 data-shape-height={shape.height}
                 data-shape-name={shape.key}

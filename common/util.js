@@ -219,6 +219,8 @@ export default {
           const img = shape.logo;
 
           shapeStyle = `shape=image;html=1;verticalLabelPosition=bottom;fontColor:#fff;verticalAlign=top;imageAspect=0;image=${img}`;
+        } else if (shapeType === 'card') {
+          shapeStyle = `${shapeName}`;
         }
 
         this.createDragableItem({
