@@ -443,7 +443,7 @@ mxSvgCanvas2D.prototype.getSvgGradient = function (start, end, alpha1, alpha2, d
       // Uses shorter IDs for export
       tmpId = `id${++this.refCount}`;
     }
-		
+
     if (gradient == null) {
       gradient = this.createSvgGradient(start, end, alpha1, alpha2, direction);
       gradient.setAttribute('id', tmpId);
@@ -610,7 +610,9 @@ mxSvgCanvas2D.prototype.updateFill = function () {
  * Returns the current stroke width (>= 1), ie. max(1, this.format(this.state.strokeWidth * this.state.scale)).
  */
 mxSvgCanvas2D.prototype.getCurrentStrokeWidth = function () {
-  return Math.max(this.minStrokeWidth, Math.max(0.01, this.format(this.state.strokeWidth * this.state.scale)));
+  // add by wantian
+  return 1; // 默认所有 svg 的描边宽度都为1，且不随图形拉伸而缩放
+  // return Math.max(this.minStrokeWidth, Math.max(0.01, this.format(this.state.strokeWidth * this.state.scale)));
 };
 
 /**
@@ -632,7 +634,7 @@ mxSvgCanvas2D.prototype.updateStroke = function () {
   if (sw != 1) {
     this.node.setAttribute('stroke-width', sw);
   }
-	
+
   if (this.node.nodeName == 'path') {
     this.updateStrokeAttributes();
   }

@@ -634,6 +634,8 @@
  * performance. Default is mxConstants.DIALECT_MIXEDHTML (for IE).
  * stylesheet - Optional <mxStylesheet> to be used in the graph.
  */
+import uniqid from 'uniqid';
+
 function mxGraph(container, model, renderHint, stylesheet) {
   // Initializes the variable in case the prototype has been
   // modified to hold some listeners (which is possible because
@@ -5428,6 +5430,13 @@ mxGraph.prototype.moveCells = function (cells, dx, dy, clone, target, evt, mappi
     } finally {
       this.model.endUpdate();
     }
+  }
+
+  // 如果是复制场景，则重新生成id
+  if(clone){
+    cells && cells.forEach(cell => {
+      cell.id = uniqid();
+    });
   }
 
   return cells;

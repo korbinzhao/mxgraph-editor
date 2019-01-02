@@ -4,13 +4,12 @@
  * Copyright (c) 2006-2017, Gaudenz Alder
  */
 
-// window.mxBasePath = '../ai/static/mxgraph';
-// window.STYLE_PATH = '../ai/static/grapheditor/styles';
-// window.RESOURCE_BASE = '../ai/static/grapheditor/resources/grapheditor';
-// window.STENCIL_PATH = '../ai/static/grapheditor/stencils';
-// window.OPEN_FORM = '../ai/static/grapheditor/open.html';
-// window.OPEN_URL = '../ai/static/grapheditor/open.html';
-window.mxImageBasePath = 'resources/images'
+window.mxBasePath = '../ai/static/mxgraph';
+window.STYLE_PATH = '../ai/static/grapheditor/styles';
+window.RESOURCE_BASE = '../ai/static/grapheditor/resources/grapheditor';
+window.STENCIL_PATH = '../ai/static/grapheditor/stencils';
+window.OPEN_FORM = '../ai/static/grapheditor/open.html';
+window.OPEN_URL = '../ai/static/grapheditor/open.html';
 // Disables synchronous loading of resources
 window.mxLoadResources = false;
 

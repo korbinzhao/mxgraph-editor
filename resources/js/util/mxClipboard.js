@@ -2,9 +2,8 @@
  * Copyright (c) 2006-2015, JGraph Ltd
  * Copyright (c) 2006-2015, Gaudenz Alder
  */
-var mxClipboard =
-{
-	/**
+var mxClipboard = {
+  /**
 	 * Class: mxClipboard
 	 * 
 	 * Singleton that implements a clipboard for graph cells.
@@ -79,53 +78,50 @@ var mxClipboard =
 	 * Defines the step size to offset the cells after each paste operation.
 	 * Default is 10.
 	 */
-	STEPSIZE: 10,
+  STEPSIZE: 10,
 
-	/**
+  /**
 	 * Variable: insertCount
 	 * 
 	 * Counts the number of times the clipboard data has been inserted.
 	 */
-	insertCount: 1,
+  insertCount: 1,
 
-	/**
+  /**
 	 * Variable: cells
 	 * 
 	 * Holds the array of <mxCells> currently in the clipboard.
 	 */
-	cells: null,
+  cells: null,
 
-	/**
+  /**
 	 * Function: setCells
 	 * 
 	 * Sets the cells in the clipboard. Fires a <mxEvent.CHANGE> event.
 	 */
-	setCells: function(cells)
-	{
-		mxClipboard.cells = cells;
-	},
+  setCells (cells) {
+    mxClipboard.cells = cells;
+  },
 
-	/**
+  /**
 	 * Function: getCells
 	 * 
 	 * Returns  the cells in the clipboard.
 	 */
-	getCells: function()
-	{
-		return mxClipboard.cells;
-	},
-	
-	/**
+  getCells () {
+    return mxClipboard.cells;
+  },
+
+  /**
 	 * Function: isEmpty
 	 * 
 	 * Returns true if the clipboard currently has not data stored.
 	 */
-	isEmpty: function()
-	{
-		return mxClipboard.getCells() == null;
-	},
-	
-	/**
+  isEmpty () {
+    return mxClipboard.getCells () == null;
+  },
+
+  /**
 	 * Function: cut
 	 * 
 	 * Cuts the given array of <mxCells> from the specified graph.
@@ -137,16 +133,15 @@ var mxClipboard =
 	 * graph - <mxGraph> that contains the cells to be cut.
 	 * cells - Optional array of <mxCells> to be cut.
 	 */
-	cut: function(graph, cells)
-	{
-		cells = mxClipboard.copy(graph, cells);
-		mxClipboard.insertCount = 0;
-		mxClipboard.removeCells(graph, cells);
-		
-		return cells;
-	},
+  cut (graph, cells) {
+    cells = mxClipboard.copy (graph, cells);
+    mxClipboard.insertCount = 0;
+    mxClipboard.removeCells (graph, cells);
 
-	/**
+    return cells;
+  },
+
+  /**
 	 * Function: removeCells
 	 * 
 	 * Hook to remove the given cells from the given graph after
@@ -157,12 +152,11 @@ var mxClipboard =
 	 * graph - <mxGraph> that contains the cells to be cut.
 	 * cells - Array of <mxCells> to be cut.
 	 */
-	removeCells: function(graph, cells)
-	{
-		graph.removeCells(cells);
-	},
+  removeCells (graph, cells) {
+    graph.removeCells (cells);
+  },
 
-	/**
+  /**
 	 * Function: copy
 	 * 
 	 * Copies the given array of <mxCells> from the specified
@@ -174,17 +168,18 @@ var mxClipboard =
 	 * graph - <mxGraph> that contains the cells to be copied.
 	 * cells - Optional array of <mxCells> to be copied.
 	 */
-	copy: function(graph, cells)
-	{
-		cells = cells || graph.getSelectionCells();
-		var result = graph.getExportableCells(graph.model.getTopmostCells(cells));
-		mxClipboard.insertCount = 1;
-		mxClipboard.setCells(graph.cloneCells(result));
+  copy (graph, cells) {
+    cells = cells || graph.getSelectionCells ();
+    const result = graph.getExportableCells (
+      graph.model.getTopmostCells (cells)
+    );
+    mxClipboard.insertCount = 1;
+    mxClipboard.setCells (graph.cloneCells (result));
 
-		return result;
-	},
+    return result;
+  },
 
-	/**
+  /**
 	 * Function: paste
 	 * 
 	 * Pastes the <cells> into the specified graph restoring
@@ -199,25 +194,24 @@ var mxClipboard =
 	 * 
 	 * graph - <mxGraph> to paste the <cells> into.
 	 */
-	paste: function(graph)
-	{
-		var cells = null;
-		
-		if (!mxClipboard.isEmpty())
-		{
-			cells = graph.getImportableCells(mxClipboard.getCells());
-			var delta = mxClipboard.insertCount * mxClipboard.STEPSIZE;
-			var parent = graph.getDefaultParent();
-			cells = graph.importCells(cells, delta, delta, parent);
-			
-			// Increments the counter and selects the inserted cells
-			mxClipboard.insertCount++;
-			graph.setSelectionCells(cells);
-		}
-		
-		return cells;
-	}
+  paste (graph) {
+    let cells = null;
+    if (!mxClipboard.isEmpty ()) {
+      cells = graph.getImportableCells (mxClipboard.getCells ());
+      const delta = mxClipboard.insertCount * mxClipboard.STEPSIZE; // 坐标
+      const parent = graph.getDefaultParent ();
 
+      // 存在bug，须解决id重复问题
+
+      // 是执行复制的操作
+      cells = graph.importCells (cells, delta, delta, parent);
+      // Increments the counter and selects the inserted cells
+      mxClipboard.insertCount++;
+      graph.setSelectionCells (cells);
+    }
+
+    return cells;
+  },
 };
 
 window.mxClipboard = mxClipboard;
