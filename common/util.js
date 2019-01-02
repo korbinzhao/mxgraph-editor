@@ -452,10 +452,7 @@ export default {
     // command + c / ctrl + c
     if (evtobj.keyCode === 67 && (evtobj.ctrlKey || evtobj.metaKey)) {
       mxClipboard.copy (graph); //eslint-disable-line
-    } else if (evtobj.keyCode === 86 && (evtobj.ctrlKey || evtobj.metaKey)) {
-      // command + v / ctrl + v
-      // 增加flag
-      //  mxClipboard.paste (graph,"copy"); // eslint-disable-line
+    } else if (evtobj.keyCode === 86 && (evtobj.ctrlKey || evtobj.metaKey)) { // command + v / ctrl + v
       // cells 复制元素的集合   
       const cells = mxClipboard.paste(graph); // eslint-disable-line
 
