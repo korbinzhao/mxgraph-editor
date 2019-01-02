@@ -399,7 +399,7 @@ export default {
 
   // 回退监听
   undoListener(config) {
-    const { graph } = config;
+    const { graph, callback } = config;
 
     // Undo/redo
     const undoManager = new mxUndoManager (); //eslint-disable-line
@@ -412,12 +412,12 @@ export default {
     graph.getModel ().addListener (mxEvent.UNDO, listener); //eslint-disable-line
     graph.getView ().addListener (mxEvent.UNDO, listener); //eslint-disable-line
 
-    this.undoListenerFunc2 = this.undoListenerFunc.bind(this, undoManager);
+    this.undoListenerFunc2 = this.undoListenerFunc.bind(this, undoManager, callback);
 
     document.body.addEventListener('keydown', this.undoListenerFunc2);
   },
 
-  undoListenerFunc(undoManager, e) {
+  undoListenerFunc(undoManager, callback, e) {
     if (e.target !== e.currentTarget) {
       return false;
     }
@@ -427,6 +427,8 @@ export default {
     if (evtobj.keyCode === 90 && (evtobj.ctrlKey || evtobj.metaKey)) {
       undoManager.undo();
       // undoManager.redo();
+
+      callback && callback();
     }
   },
 
@@ -1368,7 +1370,8 @@ export default {
   },
 
   // 自定义锚点
-  initCustomPort(pic) {
+  initCustomPort(config) {
+    const { pic } = config;
     // Replaces the port image
     mxConstraintHandler.prototype.pointImage = new mxImage (pic, 10, 10); //eslint-disable-line
   },

@@ -33,6 +33,8 @@ class MyEditor extends React.Component {
       autoSaveFunc: this.autoSaveFunc,
       cellCreatedFunc: this.cellCreatedFunc,
       deleteFunc: this.deleteFunc,
+      undoFunc: this.undoFunc,
+      copyFunc: this.copyFunc,
       valueChangeFunc: this.valueChangeFunc,
       IMAGE_SHAPES,
       CARD_SHAPES,
@@ -40,6 +42,8 @@ class MyEditor extends React.Component {
     });
 
     this.editor = editor;
+
+    editor.initCustomPort('https://gw.alicdn.com/tfs/TB1PqwZzzDpK1RjSZFrXXa78VXa-200-200.png');
 
     const xml = window.localStorage.getItem('autosaveXml');
 
@@ -117,6 +121,14 @@ class MyEditor extends React.Component {
   clickFunc = (cell) => {
     console.log('click', cell);
   };
+
+  undoFunc = (changes) => {
+    console.log('undo', changes);
+  }
+
+  copyFunc = (changes) => {
+    console.log('copy', changes);
+  }
 
   render() {
     return (

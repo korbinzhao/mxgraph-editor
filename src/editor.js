@@ -51,6 +51,8 @@ export default class Graph {
       autoSaveFunc,
       hoverFunc,
       deleteFunc,
+      undoFunc,
+      copyFunc,
       valueChangeFunc,
       changeFunc,
       IMAGE_SHAPES,
@@ -81,15 +83,17 @@ export default class Graph {
       SVG_SHAPES
     });
 
-    // // 配置undo、redo事件监听
-    // util.undoListener({
-    //   graph: graph,
-    // });
+    // 配置undo、redo事件监听
+    util.undoListener({
+      graph,
+      callback: undoFunc
+    });
 
-    // // 复制监听
-    // util.copyListener({
-    //   graph: graph,
-    // });
+    // 复制监听
+    util.copyListener({
+      graph,
+      callback: copyFunc
+    });
 
     // 删除监听
     util.deleteListener({
@@ -142,10 +146,6 @@ export default class Graph {
       callback: valueChangeFunc,
     });
 
-    // util.renderGraphFromXml({
-    //   graph: graph,
-    // });
-
     // util.initAutoLayout ({
     //   graph: graph,
     // });
@@ -161,11 +161,6 @@ export default class Graph {
       sidebarItems,
       cellCreatedFunc: this.cellCreatedFunc,
     });
-
-    // util.parsePropsInSvg({graph});
-
-    // Enables rubberband selection
-    // new mxRubberband(graph); // eslint-disable-line
   }
 
   // 初始化侧边栏
