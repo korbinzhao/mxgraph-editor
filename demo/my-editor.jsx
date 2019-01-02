@@ -18,7 +18,6 @@ class MyEditor extends React.Component {
     super(props);
 
     this.state = {
-      nodeList: null,
     };
 
     this.graphContainerClickCount = 0;

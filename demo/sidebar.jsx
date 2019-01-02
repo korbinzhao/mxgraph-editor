@@ -7,7 +7,7 @@ import './sidebar.less';
 
 const { Panel } = Collapse;
 
-const BASIC_SHAPES = [
+const SIDEBAR_BASIC_SHAPES = [
   {
     name: '矩形',
     key: 'Rectangle',
@@ -52,7 +52,7 @@ const BASIC_SHAPES = [
   },
 ];
 
-const SVG_SHAPES = [{
+const SIDEBAR_SVG_SHAPES = [{
   name: '上网电量',
   key: 'shangwangdianliang',
   logo: 'https://img.alicdn.com/tfs/TB1i4I1wxTpK1RjSZR0XXbEwXXa-80-80.svg',
@@ -74,10 +74,22 @@ const SVG_SHAPES = [{
   height: 80,
 }];
 
-const CARD_SHAPES = [{
+const SIDEBAR_CARD_SHAPES = [{
   name: '主设备',
   key: 'zhushebei',
   logo: 'https://img.alicdn.com/tfs/TB1eD9LdgHqK1RjSZJnXXbNLpXa-144-128.png',
+  width: 100,
+  height: 80
+}, {
+  name: '附加设备',
+  key: 'fujiashebei',
+  logo: 'https://img.alicdn.com/tfs/TB1ejUeiAPoK1RjSZKbXXX1IXXa-36-32.png',
+  width: 100,
+  height: 80
+}, {
+  name: '产出物',
+  key: 'chanchuwu',
+  logo: 'https://img.alicdn.com/tfs/TB1ht.aisbpK1RjSZFyXXX_qFXa-32-32.png',
   width: 100,
   height: 80
 }];
@@ -133,7 +145,7 @@ export default class SideBar extends React.Component {
         >
           <Panel key="common" header="基础组件">
 
-            {BASIC_SHAPES.map(shape => (
+            {SIDEBAR_BASIC_SHAPES.map(shape => (
               <a
                 href="javascript:void(0);"
                 key={`panel_a_${shape.key}`}
@@ -161,7 +173,7 @@ export default class SideBar extends React.Component {
           </Panel>
 
           <Panel header="SVG组件" key="svg">
-            {SVG_SHAPES.map(shape => (
+            {SIDEBAR_SVG_SHAPES.map(shape => (
               <a
                 href="javascript:void(0);"
                 key={`panel_a_${shape.key}`}
@@ -221,7 +233,7 @@ export default class SideBar extends React.Component {
           </Panel>
 
           <Panel header="卡片组件" key="card">
-            {CARD_SHAPES.map(shape => (
+            {SIDEBAR_CARD_SHAPES.map(shape => (
               <a
                 onClick={(e) => {
                   e.preventDefault();

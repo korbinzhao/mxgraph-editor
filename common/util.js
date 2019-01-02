@@ -147,14 +147,14 @@ export default {
 
     // 配置图片图形
     cardShapes
-      && Object.keys(cardShapes).forEach((name) => {
+      && cardShapes.forEach((shape) => {
         const style = mxUtils.clone (imageStyle); //eslint-disable-line
         style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_LABEL; //eslint-disable-line
         style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER; //eslint-disable-line
         style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_ALIGN] = mxConstants.ALIGN_CENTER; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP; //eslint-disable-line
-        style[mxConstants.STYLE_IMAGE] = cardShapes[name]; //eslint-disable-line
+        style[mxConstants.STYLE_IMAGE] = shape.logo; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_WIDTH] = '30'; //eslint-disable-line
         style[mxConstants.STYLE_IMAGE_HEIGHT] = '30'; //eslint-disable-line
         style[mxConstants.STYLE_SPACING_TOP] = '46'; //eslint-disable-line
@@ -163,7 +163,7 @@ export default {
         style[mxConstants.STYLE_ARCSIZE] = 10; //eslint-disable-line
         style[mxConstants.STYLE_STROKECOLOR] = '#ffffff'; //eslint-disable-line
         style[mxConstants.STYLE_FILLCOLOR] = '#ffffff'; //eslint-disable-line
-        graph.getStylesheet().putCellStyle(name, style);
+        graph.getStylesheet().putCellStyle(shape.key, style);
       });
 
     // 配置 SVG 图形
