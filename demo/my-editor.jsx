@@ -122,12 +122,12 @@ class MyEditor extends React.Component {
     console.log('click', cell);
   };
 
-  undoFunc = (changes) => {
-    console.log('undo', changes);
+  undoFunc = (histories) => {
+    console.log('undo', histories);
   }
 
-  copyFunc = (changes) => {
-    console.log('copy', changes);
+  copyFunc = (cells) => {
+    console.log('copy', cells);
   }
 
   render() {

@@ -426,22 +426,24 @@ export default {
 
     if (evtobj.keyCode === 90 && (evtobj.ctrlKey || evtobj.metaKey)) {
       undoManager.undo();
-      // undoManager.redo();
 
-      callback && callback();
+      const { history: histories } = undoManager;
+
+      callback && callback(histories);
+      
+      // undoManager.redo();
     }
   },
 
   // 复制监听器
   copyListener(config) {
-    const { graph } = config;
+    const { graph, callback } = config;
 
-    this.copyListenerFunc2 = this.copyListenerFunc.bind(this, graph);
-
+    this.copyListenerFunc2 = this.copyListenerFunc.bind(this, graph, callback);
     document.body.addEventListener('keydown', this.copyListenerFunc2);
   },
-
-  copyListenerFunc(graph, e) {
+  // 复制事件监听函数
+  copyListenerFunc(graph, callback, e) {
     if (e.target !== e.currentTarget) {
       return false;
     }
@@ -452,10 +454,14 @@ export default {
       mxClipboard.copy (graph); //eslint-disable-line
     } else if (evtobj.keyCode === 86 && (evtobj.ctrlKey || evtobj.metaKey)) {
       // command + v / ctrl + v
-      mxClipboard.paste (graph); //eslint-disable-line
+      // 增加flag
+      //  mxClipboard.paste (graph,"copy"); // eslint-disable-line
+      // cells 复制元素的集合   
+      const cells = mxClipboard.paste(graph); // eslint-disable-line
+
+      callback && callback(cells);
     }
   },
-
   // 删除监听器
   deleteListener(config) {
     const { graph, callback } = config;
