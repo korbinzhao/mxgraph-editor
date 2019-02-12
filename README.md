@@ -1,5 +1,7 @@
 # mxgraph-editor
-A mxGraph editor.
+A mxGraph editor support 3 types of shapes, svg/image/card. 
+
+![](https://img.alicdn.com/tfs/TB1UdRyGXzqK1RjSZFoXXbfcXXa-2880-1416.png)
 
 # development
 ```
@@ -14,6 +16,16 @@ npm install --save mxgraph-editor
 ```
 
 # demo
+
+See the detail in ./demo . 
+
+## start the demo
+```
+// start the demo
+npm start
+```
+
+## code
 
 ```
 import Sidebar from './sidebar';
@@ -64,33 +76,33 @@ const editor = new Editor({
 
 # api
 
-|属性|	说明|	类型|	默认值|
+|property|	description|	type|	default|
 |---|---|---|---|
-|SVG_SHAPES|SVG形状配置|Array|[]|
-|CARD_SHAPES|卡片形状配置|Array|[]|
-|IMAGE_SHAPES|图片形状配置|Array|[]|
-|container|画布容器选择器|selector|
-|clickFunc|单击事件回调函数|function(cell)|
-|doubleClickFunc|双击事件回调函数|function(cell)||
-|autoSaveFunc|自动保存回调函数|function(xml)|
-|cellCreatedFunc|节点创建回调函数|function(cell)||
-|deleteFunc|节点删除回调函数|function(e)||
-|valueChangeFunc|节点 value 变更回调函数|function(value)||
-|initSidebar|初始化侧边栏|function(elements)||
-|initCustomPort|自定义锚点, 10x10px|function((picture))||
-|zoom|缩放|function(type)，入参：in（放大）、out（缩小）、actual（还原）||
-|updateStyle|更新样式|function(cell, key, value)，入参：cell 节点，key 新样式的 key，value 新样式的 value||
-|groupCells|组合|function(groupId, labelName)，入参：groupId 分组id，name 标签名称||
-|ungroupCells|取消分组|function(cells)|
-|getCellsSelected|获取当前选中的所有cell|function()||
-|getGraphXml|获取当前 graph 的 xml|function()||
-|createVertex|创建节点|function(shapeLabel, x, y, width, height, shapeStyle)|
-|insertEdge|插入连线|function(vertex1, vertex2)||
-|getCellById|通过id获取cell|function(id)||
-|getAllCells|获取当前画布所有 cell|function()|
-|refresh|重新渲染画布|function()||
-|clearSelection|清除当前选择|function()||
-|startPanning|开始平移画布|function()||
-|stopPanning|停止平移画布|function()||
+|SVG_SHAPES|SVG shapes config|Array|[]|
+|CARD_SHAPES|card shapes config|Array|[]|
+|IMAGE_SHAPES|image shapes config|Array|[]|
+|container|container dom selector|selector|
+|clickFunc|click event callback|function(cell)|
+|doubleClickFunc|double click event callback|function(cell)||
+|autoSaveFunc|auto save callback|function(xml)|
+|cellCreatedFunc|cell created callback|function(cell)||
+|deleteFunc|cell delete callback|function(e)||
+|valueChangeFunc|cell value change callback|function(value)||
+|initSidebar|init the sidebar|function(elements)||
+|initCustomPort|the custom port, 10x10px|function((picture))||
+|zoom|zoom|function(type)，input params：in（zoom in）、out（zoom out）、actual（zoom actual）||
+|updateStyle|update style|function(cell, key, value)，input params：cell，key (the key of style)，value (the value of style)||
+|groupCells|group cells|function(groupId, labelName)，input params：groupId(group id)，name (group label)||
+|ungroupCells|ungroup cells|function(cells)|
+|getCellsSelected|get all cells selected|function()||
+|getGraphXml|get the xml of graph|function()||
+|createVertex|create vertex|function(shapeLabel, x, y, width, height, shapeStyle)|
+|insertEdge|insert edge|function(vertex1, vertex2)||
+|getCellById|get cell by id|function(id)||
+|getAllCells|get all cells|function()|
+|refresh|refresh the graph|function()||
+|clearSelection|clear the selection in the graph|function()||
+|startPanning|start panning|function()||
+|stopPanning|stop panning|function()||
 
 

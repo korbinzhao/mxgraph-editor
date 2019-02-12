@@ -1,7 +1,7 @@
 import '../resources/index';
 import util from '../common/util';
 
-export default class Graph {
+export default class Editor {
   constructor(props) {
     this.init(props);
   }
@@ -37,10 +37,6 @@ export default class Graph {
     this.graph = graph;
     this.cellCreatedFunc = cellCreatedFunc;
     this.valueChangeFunc = valueChangeFunc;
-
-    // test
-    window.graph = graph;
-    window.editorThis = this;
   }
 
   initEditor(config) { // eslint-disable-line
@@ -75,7 +71,7 @@ export default class Graph {
 
     util.initZoomConfig({ graph });
 
-    // 配置自定义图形
+    // config shapes
     util.configShapes({
       graph,
       IMAGE_SHAPES,
@@ -83,37 +79,28 @@ export default class Graph {
       SVG_SHAPES
     });
 
-    // 配置undo、redo事件监听
+    // undo event listener
     util.undoListener({
       graph,
       callback: undoFunc
     });
 
-    // 复制监听
+    // copy event listener
     util.copyListener({
       graph,
       callback: copyFunc
     });
 
-    // 删除监听
+    // delete event listener
     util.deleteListener({
       graph,
       callback: deleteFunc,
     });
 
-    // 连线处理器
+    // connector handler
     util.connectorHandler({
       graph,
     });
-
-    // // 初始化 pop 菜单
-    // util.initPopupMenu({
-    //   graph: graph,
-    // });
-
-    // util.initVertexToolHandler({
-    //   graph: graph
-    // });
 
     util.handleDoubleClick({
       graph,
@@ -135,8 +122,6 @@ export default class Graph {
       callback: changeFunc,
     });
 
-    // util.htmlLable ({graph});
-
     util.initAutoSave({
       graph,
       callback: autoSaveFunc,
@@ -145,14 +130,6 @@ export default class Graph {
     util.vertexRenameListener({
       callback: valueChangeFunc,
     });
-
-    // util.initAutoLayout ({
-    //   graph: graph,
-    // });
-
-    // util.initCustomPort({
-    //   graph: graph,
-    // });
 
     const sidebarItems = document.querySelectorAll('.custom-sidebar-node');
 
@@ -163,7 +140,7 @@ export default class Graph {
     });
   }
 
-  // 初始化侧边栏
+  // init sidebar
   initSidebar(sidebarItems) {
     return util.initSidebar({
       graph: this.graph,
@@ -172,7 +149,7 @@ export default class Graph {
     });
   }
 
-  // 自定义锚点, 10x10px
+  // custom port, 10x10px
   initCustomPort(pic) {
     return util.initCustomPort({
       pic,
@@ -181,8 +158,8 @@ export default class Graph {
   }
 
   /**
-   * 缩放
-   * type: in（放大）、out（缩小）、actual（还原）
+   * zoom
+   * type: in、out、actual
    */
   zoom(type) {
     return util.zoom({
@@ -193,16 +170,15 @@ export default class Graph {
 
 
   /**
-   * 更新样式
-   * @param {*} cell 节点
-   * @param {*} key 新样式的 key
-   * @param {*} value 新样式的 value
+   * update style
+   * @param {*} cell cell
+   * @param {*} key the key of style
+   * @param {*} value the value of style
    */
   updateStyle(cell, key, value) {
     return util.updateStyle(this.graph, cell, key, value);
   }
 
-  // 组合
   groupCells(groupId, labelName) {
     const cellsGrouped = this.graph.getSelectionCells();
 
@@ -239,7 +215,7 @@ export default class Graph {
   }
 
   /**
-   * 取消组合
+   * ungroup cells
    */
   ungroupCells(cells) {
     const tempCells = cells || this.graph.getSelectionCells();
@@ -269,14 +245,14 @@ export default class Graph {
     return this.graph.ungroupCells(groupCells);
   }
 
-  // 获取当前选中的所有 cell
+  // get all cells selected
   getCellsSelected() {
     return this.graph.getSelectionCells();
   }
 
   /**
-   * 从 xml 渲染图表
-   * @param {*} xml 字符串类型的 xml
+   * render graph from xml
+   * @param {string} xml xml
    */
   renderGraphFromXml(xml) {
     return util.renderGraphFromXml({
@@ -286,7 +262,7 @@ export default class Graph {
   }
 
   /**
-   * 获取当前 graph 的 xml
+   * get xml of the graph
    */
   getGraphXml() {
     const xml = util.getGraphXml({
@@ -299,7 +275,7 @@ export default class Graph {
   }
 
   /**
-   * 创建节点
+   * create vertex
    * @param {shapeLabel, x, y, width, height, shapeStyle} param0 shapeLabel, x, y, width, height, shapeStyle
    */
   createVertex(shapeLabel, x, y, width, height, shapeStyle) {
@@ -312,9 +288,9 @@ export default class Graph {
   }
 
   /**
-   * 插入连线
-   * @param {*} v1 节点1
-   * @param {*} v2 节点2
+   * insert edge
+   * @param {*} v1 cell 1
+   * @param {*} v2 cell 2
    */
   insertEdge(v1, v2) {
     const parent = this.graph.getDefaultParent();
@@ -323,7 +299,7 @@ export default class Graph {
   }
 
   /**
-   * 通过id获取cell
+   * get cell by id
    * @param {*} id id
    */
   getCellById(id) {
@@ -341,7 +317,7 @@ export default class Graph {
   }
 
   /**
-   * 获取当前画布所有 cell
+   * get all cells
    */
   getAllCells() {
     const { cells } = this.graph.model;
@@ -354,23 +330,23 @@ export default class Graph {
   }
 
   /**
-   * 重命名一个 cell（修改 cell 的 labelName）
-   * @param {*} newName 新名字
-   * @param {*} cell 要修改的 cell
+   * rename a cell label
+   * @param {*} newName new name
+   * @param {*} cell a cell
    */
   renameCell(newName, cell) {
     return util.renameCell(newName, cell, this.graph);
   }
 
   /**
-   * 重新渲染画布
+   * refresh the graph
    */
   refresh() {
     return this.graph.refresh();
   }
 
   /**
-   * 清除当前选择
+   * clear selection in the graph
    */
   clearSelection() {
     return this.graph.clearSelection();

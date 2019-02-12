@@ -25,8 +25,10 @@ class Toolbar extends React.Component {
 
   render() {
     const {
-      graph, updateDiagramData,
+      editor, updateDiagramData,
     } = this.props;
+
+    const graph = editor && editor.graph;
 
     return [
       <div key="toolbar" className="toolbar">
@@ -45,7 +47,7 @@ class Toolbar extends React.Component {
           <div
             className="toolbar-btn"
             onClick={() => {
-              const cellsSelected = graph.graph.getSelectionCells();
+              const cellsSelected = graph.getSelectionCells();
 
               if (!(cellsSelected && cellsSelected.length > 1)) {
                 return false;
@@ -64,7 +66,7 @@ class Toolbar extends React.Component {
                 return false;
               }
 
-              const allCells = graph.graph.model.cells;
+              const allCells = graph.model.cells;
 
               let groupCount = 1;
               allCells && Object.keys(allCells).forEach((index) => {
@@ -75,7 +77,7 @@ class Toolbar extends React.Component {
 
               const groupName = `组件${groupCount}`;
 
-              const { cellsGrouped } = graph.groupCells(cellsSelected, groupName);
+              const { cellsGrouped } = editor.groupCells(cellsSelected, groupName);
 
               const nodeCodes = [];
 
@@ -97,13 +99,13 @@ class Toolbar extends React.Component {
           <div
             className="toolbar-btn"
             onClick={() => {
-              const cellsSelected = graph.graph.getSelectionCells();
+              const cellsSelected = graph.getSelectionCells();
 
               if (!(cellsSelected && cellsSelected.length !== 0)) {
                 return false;
               }
 
-              graph.ungroupCells();
+              editor.ungroupCells();
 
               return true;
             }}
@@ -151,9 +153,9 @@ class Toolbar extends React.Component {
             this.panning = !this.panning;
 
             if (this.panning) {
-              graph.startPanning();
+              editor.startPanning();
             } else {
-              graph.stopPanning();
+              editor.stopPanning();
             }
           }}
         >
@@ -166,19 +168,11 @@ class Toolbar extends React.Component {
 }
 
 Toolbar.propTypes = {
-  graph: PropTypes.object,
-  // templateId: PropTypes.string,
-  // createVertexInDB: PropTypes.func,
-  atlas_asyncDeleteDict: PropTypes.func,
   updateDiagramData: PropTypes.func,
 };
 
 // Specifies the default values for props:
 Toolbar.defaultProps = {
-  graph: {},
-  // templateId: '',
-  // createVertexInDB: () => {},
-  atlas_asyncDeleteDict: () => {},
   updateDiagramData: () => {},
 };
 

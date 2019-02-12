@@ -18,6 +18,7 @@ class MyEditor extends React.Component {
     super(props);
 
     this.state = {
+      editor: null
     };
 
     this.graphContainerClickCount = 0;
@@ -43,23 +44,27 @@ class MyEditor extends React.Component {
 
     this.editor = editor;
 
+    window.editor = editor;
+
     editor.initCustomPort('https://gw.alicdn.com/tfs/TB1PqwZzzDpK1RjSZFrXXa78VXa-200-200.png');
 
     const xml = window.localStorage.getItem('autosaveXml');
 
     this.editor.renderGraphFromXml(xml);
+
+    this.setState({ editor });
   }
 
   componentWillUnmount() {
     this.mounted = false;
 
-    // 组件销毁时，移除 graph 的全局事件
+    // remove event listeners when component will unmount
     this.editor.removeEventListeners();
   }
 
 
   /**
-   * 双击事件回调
+   * double click event callback
    */
   doubleClickFunc = (cell) => {
     console.log('double click', cell);
@@ -84,27 +89,16 @@ class MyEditor extends React.Component {
   };
 
   deleteFunc = (cells) => {
-    console.log('已删除 cells: ', cells);
+    console.log('cells deleted: ', cells);
   };
 
   /**
-   * cell 的 value 发生变化的回调函数
-   * @param {*} cell 当前cell
-   * @param {*} newValue 新值
+   * value change callback
+   * @param {*} cell cell
+   * @param {*} newValue new value
    */
   valueChangeFunc = (cell, newValue) => {
-    const nodeId = cell.nodeCode;
-
-    newValue = newValue.replace(/\r|\n/g, '');  
-
-    const oldValue = cell.value;
-    // 命名长度不能超过 18
-    if (newValue && newValue.length <= 18) {
-      this.renameDictName(nodeId, newValue);
-    } else if (newValue && newValue.length > 18) {
-      setTimeout(() => { this.editor.renameCell(oldValue, cell); }, 500);
-      message.warn('节点命名长度不能超过18');
-    }
+    console.log(`new value: ${newValue}`);
   };
 
   autoSaveFunc = (xml) => {
@@ -130,19 +124,27 @@ class MyEditor extends React.Component {
     console.log('copy', cells);
   }
 
+  updateDiagramData = (data) => {
+    console.log(`update diagram: ${data}`);
+  }
+
   render() {
+    const { editor } = this.state;
+
     return (
       <div className="editor-container">
         <Layout>
           <Sider width="235" theme="light">
-            <Sidebar key="sidebar" graph={this.editor} />
+            <Sidebar key="sidebar" editor={editor} />
           </Sider>
           <Content>
             <div className="graph-inner-container">
-              <Toolbar
-                graph={this.editor}
-                updateDiagramData={this.updateDiagramData}
-              />
+              {editor ? (
+                <Toolbar
+                  editor={editor}
+                  updateDiagramData={this.updateDiagramData}
+                />
+              ) : null}
               <div className="graph-content" key="graphcontent" />
             </div>
           </Content>

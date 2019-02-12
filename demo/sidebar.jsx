@@ -9,65 +9,72 @@ const { Panel } = Collapse;
 
 const SIDEBAR_BASIC_SHAPES = [
   {
-    name: '矩形',
+    name: 'rectangle',
     key: 'Rectangle',
     logo: 'https://img.alicdn.com/tfs/TB19O8OokvoK1RjSZFNXXcxMVXa-33-26.svg',
     width: 120,
     height: 60,
   },
   {
-    name: '圆角矩形',
+    name: 'rounded rectangle',
     key: 'Rounded Rectangle',
     logo: 'https://img.alicdn.com/tfs/TB1rzVHojDpK1RjSZFrXXa78VXa-33-26.svg',
     width: 120,
     height: 60,
   },
   {
-    name: '梯形',
+    name: 'trapezoid',
     key: 'Trapezoid',
     logo: 'https://img.alicdn.com/tfs/TB1nEXPokvoK1RjSZPfXXXPKFXa-33-26.svg',
     width: 120,
     height: 60,
   },
   {
-    name: '圆形',
+    name: 'circle',
     key: 'Circle',
     logo: 'https://img.alicdn.com/tfs/TB15iXQogHqK1RjSZFkXXX.WFXa-38-38.svg',
     width: 80,
     height: 80,
   },
   {
-    name: '三角形',
+    name: 'triangle',
     key: 'Triangle',
     logo: 'https://img.alicdn.com/tfs/TB1cxNKohTpK1RjSZR0XXbEwXXa-38-38.svg',
     width: 80,
     height: 80,
   },
   {
-    name: '连线',
+    name: 'line',
     key: 'Line',
     logo: 'https://img.alicdn.com/tfs/TB1LOxPoirpK1RjSZFhXXXSdXXa-38-38.svg',
     width: 80,
     height: 80,
   },
+  {
+    name: 'text',
+    key: 'Text',
+    logo: '',
+    width: 60,
+    height: 20,
+  }
 ];
 
 const SIDEBAR_SVG_SHAPES = [{
-  name: '上网电量',
+  name: 'on-grid energy',
   key: 'shangwangdianliang',
   logo: 'https://img.alicdn.com/tfs/TB1i4I1wxTpK1RjSZR0XXbEwXXa-80-80.svg',
   width: 80,
   height: 80,
 },
 {
-  name: '发电收益',
+  name: 'electricity earnings',
   key: 'fadianshouyi',
   logo: 'https://img.alicdn.com/tfs/TB1MVA2wr2pK1RjSZFsXXaNlXXa-80-80.svg',
   width: 80,
   height: 80,
 },
 {
-  name: '告警监视',
+  name: 'monitor',
   key: 'gaojingjianshi',
   logo: 'https://img.alicdn.com/tfs/TB1DildwNYaK1RjSZFnXXa80pXa-80-80.svg',
   width: 80,
@@ -75,19 +82,19 @@ const SIDEBAR_SVG_SHAPES = [{
 }];
 
 const SIDEBAR_CARD_SHAPES = [{
-  name: '主设备',
+  name: 'primary equipment',
   key: 'zhushebei',
   logo: 'https://img.alicdn.com/tfs/TB1eD9LdgHqK1RjSZJnXXbNLpXa-144-128.png',
   width: 100,
   height: 80
 }, {
-  name: '附加设备',
+  name: 'auxiliary equipment',
   key: 'fujiashebei',
   logo: 'https://img.alicdn.com/tfs/TB1ejUeiAPoK1RjSZKbXXX1IXXa-36-32.png',
   width: 100,
   height: 80
 }, {
-  name: '产出物',
+  name: 'product element',
   key: 'chanchuwu',
   logo: 'https://img.alicdn.com/tfs/TB1ht.aisbpK1RjSZFyXXX_qFXa-32-32.png',
   width: 100,
@@ -143,7 +150,7 @@ export default class SideBar extends React.Component {
             this.onChange();
           }}
         >
-          <Panel key="common" header="基础组件">
+          <Panel key="common" header="basic">
 
             {SIDEBAR_BASIC_SHAPES.map(shape => (
               <a
@@ -162,7 +169,7 @@ export default class SideBar extends React.Component {
                   key={`panel_${shape.key}`}
                   className="tooltip"
                 >
-                  <img className="sidebar-node-image" src={shape.logo} alt="" />
+                  {shape.logo ? <img className="sidebar-node-image" src={shape.logo} alt="" /> : shape.key}
                   <span className="sidebar-node-label">
                     {shape.name}
                   </span>
@@ -172,7 +179,7 @@ export default class SideBar extends React.Component {
 
           </Panel>
 
-          <Panel header="SVG组件" key="svg">
+          <Panel header="svg shapes" key="svg">
             {SIDEBAR_SVG_SHAPES.map(shape => (
               <a
                 href="javascript:void(0);"
@@ -198,7 +205,7 @@ export default class SideBar extends React.Component {
               </a>
             ))}
           </Panel>
-          <Panel header="图片组件" key="picture">
+          <Panel header="images" key="picture">
             {IMAGE_SHAPES.map(shape => (
               <a
                 onClick={(e) => {
@@ -232,7 +239,7 @@ export default class SideBar extends React.Component {
 
           </Panel>
 
-          <Panel header="卡片组件" key="card">
+          <Panel header="cards" key="card">
             {SIDEBAR_CARD_SHAPES.map(shape => (
               <a
                 onClick={(e) => {
