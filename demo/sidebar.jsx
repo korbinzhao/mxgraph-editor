@@ -119,15 +119,13 @@ export default class SideBar extends React.Component {
     if (editor && editor.initSidebar) {
       const sidebarItems = document.querySelectorAll('.custom-sidebar-node');
 
-      const newSidebarItems = [];
-
-      sidebarItems
-        && sidebarItems.forEach((item) => {
-          if (!item.classList.contains('has-inited')) {
-            item.classList.add('has-inited');
-            newSidebarItems.push(item);
-          }
-        });
+      const newSidebarItems = Array.from(sidebarItems).filter((item) => {
+        if (!item.classList.contains('has-inited')) {
+          item.classList.add('has-inited');
+          return true;
+        }
+        return false;
+      });
 
       editor.initSidebar(newSidebarItems);
     }

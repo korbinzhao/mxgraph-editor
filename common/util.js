@@ -7,7 +7,7 @@ import './basic-shapes-generator';
 
 export default {
   /**
-   * 初始化画布
+   * init graph
    * @param {graph} config 
    */
   initGraph(config) {
@@ -16,8 +16,6 @@ export default {
     // // Enables HTML labels
     // graph.setHtmlLabels(true);
 
-    // // 是否允许平移。true：表示按住Shift+左键拖动时，整个graph移动；
-    // // false：按住Shift+左键拖动时，选中的图形水平方向或者垂直方向平移。
     // Enables panning with left mouse button
     // graph.panningHandler.useLeftButtonForPanning = true;
     // graph.panningHandler.ignoreCell = true;
@@ -26,95 +24,17 @@ export default {
 
     // // Uncomment the following if you want the container
     // // to fit the size of the graph
-    // graph.setResizeContainer(true); // 不要开启
+    // graph.setResizeContainer(true);
 
     graph.collapsedImage = '';
     graph.expandedImage = '';
 
-    // 拖动&拉伸的最小距离单元
     graph.gridSize = 10;
 
     // Enables rubberband selection
     new mxRubberband (graph); //eslint-disable-line
-
-    // // Adds optional caching for the HTML label
-    // const cached = true;
-
-    // if (cached) {
-    //   // Ignores cached label in codec
-    //   mxCodecRegistry.getCodec(mxCell).exclude.push('div');
-
-    //   // Invalidates cached labels
-    //   graph.model.setValue = function (cell, value) {
-    //     cell.div = null;
-    //     mxGraphModel.prototype.setValue.apply(this, arguments);
-    //   };
-    // }
-
-    // // Overrides method to provide a cell label in the display
-    // graph.convertValueToString = function (cell) {
-    //   if (cached && cell.div != null) {
-    //     // Uses cached label
-    //     return cell.div;
-    //   }
-    //   if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() === 'userobject') {
-    //     // Returns a DOM for the label
-    //     const div = document.createElement('div');
-    //     div.innerHTML = cell.getAttribute('label');
-    //     mxUtils.br(div);
-
-    //     const checkbox = document.createElement('input');
-    //     checkbox.setAttribute('type', 'checkbox');
-
-    //     if (cell.getAttribute('checked') === 'true') {
-    //       checkbox.setAttribute('checked', 'checked');
-    //       checkbox.defaultChecked = true;
-    //     }
-
-    //     // Writes back to cell if checkbox is clicked
-    //     mxEvent.addListener(checkbox, (mxClient.IS_QUIRKS) ? 'click' : 'change', (evt) => {
-    //       const elt = cell.value.cloneNode(true);
-    //       elt.setAttribute('checked', (checkbox.checked) ? 'true' : 'false');
-
-    //       graph.model.setValue(cell, elt);
-    //     });
-
-    //     div.appendChild(checkbox);
-
-    //     if (cached) {
-    //       // Caches label
-    //       cell.div = div;
-    //     }
-
-    //     return div;
-    //   }
-
-    //   return '';
-    // };
-
-    // // Overrides method to store a cell label in the model
-    // const { cellLabelChanged } = graph;
-    // graph.cellLabelChanged = (cell, newValue) => {
-    //   if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() === 'userobject') {
-    //     // Clones the value for correct undo/redo
-    //     const elt = cell.value.cloneNode(true);
-    //     elt.setAttribute('label', newValue);
-    //     // newValue = elt;
-    //   }
-
-    //   cellLabelChanged.apply(this, arguments);
-    // };
-
-    // // Overrides method to create the editing value
-    // graph.getEditingValue = (cell) => {
-    //   if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() === 'userobject') {
-    //     return cell.getAttribute('label');
-    //   }
-    //   return null;
-    // };
   },
 
-  //  从配置文件中读取并配置图形
   configShapes(config) {
     const {
       graph, IMAGE_SHAPES, CARD_SHAPES, SVG_SHAPES 
@@ -136,7 +56,7 @@ export default {
 
     this.imageShapes = imageShapes;
 
-    graph.setDropEnabled(true); // 从工具栏拖动到目标细胞时细胞边界是否产生光圈
+    graph.setDropEnabled(true);
 
     const imageStyle = {};
     imageStyle[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE; //eslint-disable-line
@@ -145,7 +65,6 @@ export default {
     imageStyle[mxConstants.STYLE_FONTCOLOR] = '#333'; //eslint-disable-line
     graph.getStylesheet().putCellStyle('image', imageStyle);
 
-    // 配置图片图形
     cardShapes
       && cardShapes.forEach((shape) => {
         const style = mxUtils.clone (imageStyle); //eslint-disable-line
@@ -166,7 +85,6 @@ export default {
         graph.getStylesheet().putCellStyle(shape.key, style);
       });
 
-    // 配置 SVG 图形
     svgShapes
       && Object.keys(svgShapes).forEach((name) => {
         const parser = new DOMParser (); //eslint-disable-line
@@ -188,7 +106,6 @@ export default {
       });
   },
 
-  // 初始化 sidebar
   initSidebar(config) {
     const { graph, sidebarItems, cellCreatedFunc } = config;
 
@@ -224,7 +141,7 @@ export default {
         }
 
         this.createDragableItem({
-          id: `cell${parseInt(Math.random() * 10000000000000000000, 10)}`,
+          id: `cell${Date.now()}`,
           node: item,
           width,
           height,
@@ -239,7 +156,6 @@ export default {
       });
   },
 
-  // 创建可拖拽对象
   createDragableItem(config) {
     const {
       graph,
@@ -275,7 +191,7 @@ export default {
     // Inserts a cell at the given location
     const funct = (graph2, evt, target, x, y) => {
       try {
-        // 是否是一条线
+        // is a edge
         if (isEdge) {
           const cell = new mxCell(  //eslint-disable-line
             '',
@@ -322,40 +238,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-
-      // // Creates a user object that stores the state
-      // var doc = mxUtils.createXmlDocument();
-      // var obj = doc.createElement('UserObject');
-      // obj.setAttribute('shapeType', shapeType);
-      // obj.setAttribute('shapeContent', '<img style="width:20px;height:20px;" src="https://img.alicdn.com/tfs/TB1eD9LdgHqK1RjSZJnXXbNLpXa-144-128.png" />');
-      // obj.setAttribute('label', shapeName);
-
-      // // Creates a user object that stores the state
-      // var doc = mxUtils.createXmlDocument();
-      // var obj = doc.createElement('UserObject');
-      // obj.setAttribute('label', 'Hello, World!');
-      // obj.setAttribute('checked', 'false');
-
-      // var parent = graph.getDefaultParent();
-      // graph.insertVertex(parent, null, obj, x, y, 80, 60, 'default');
-
-      // var parent = graph.getDefaultParent();
-      // var v1 = graph.insertVertex(parent, null, obj, x, y, 80, 60, 'default');
-
-      // // Overrides the image bounds code to change the position
-      // mxLabel.prototype.getImageBounds = function (x, y, w, h) {
-      //   var iw = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_WIDTH, mxConstants.DEFAULT_IMAGESIZE);
-      //   var ih = mxUtils.getValue(this.style, mxConstants.STYLE_IMAGE_HEIGHT, mxConstants.DEFAULT_IMAGESIZE);
-
-      //   // Places the icon
-      //   var ix = (w - iw) / 2;
-      //   var iy = (h - ih) / 2 - 10;
-
-      //   return new mxRectangle(x + ix, y + iy, iw, ih);
-      // };
-
-      // var parent = graph.getDefaultParent();
-      // var v1 = graph.insertVertex(parent, null, shapeLabel, x, y, width, height, shapeName);
     };
 
     // Disables built-in DnD in IE (this is needed for cross-frame DnD, see below)
@@ -397,7 +279,6 @@ export default {
     ds.createDragElement = mxDragSource.prototype.createDragElement; //eslint-disable-line
   },
 
-  // 回退监听
   undoListener(config) {
     const { graph, callback } = config;
 
@@ -435,14 +316,13 @@ export default {
     }
   },
 
-  // 复制监听器
   copyListener(config) {
     const { graph, callback } = config;
 
     this.copyListenerFunc2 = this.copyListenerFunc.bind(this, graph, callback);
     document.body.addEventListener('keydown', this.copyListenerFunc2);
   },
-  // 复制事件监听函数
+
   copyListenerFunc(graph, callback, e) {
     if (e.target !== e.currentTarget) {
       return false;
@@ -459,7 +339,7 @@ export default {
       callback && callback(cells);
     }
   },
-  // 删除监听器
+
   deleteListener(config) {
     const { graph, callback } = config;
 
@@ -475,7 +355,6 @@ export default {
     document.body.addEventListener('keydown', this.deleteListenerFunc2);
   },
 
-  // 删除事件监听函数
   deleteListenerFunc(graph, e) {
     if (
       !(e.target === e.currentTarget || graph.container.contains(e.target))
@@ -507,13 +386,10 @@ export default {
     }
   },
 
-  // 连线处理器
   connectorHandler(config) {
     const { graph } = config;
 
-    graph.setConnectable(true); // 是否允许Cells通过其中部的连接点新建连接,false则通过连接线连接
-    // graph.setTooltips(true); // 是否显示提示,默认显示Cell的名称
-    // 显示细胞位置标尺
+    graph.setConnectable(true);
     mxGraphHandler.prototype.guidesEnabled = true; //eslint-disable-line
 
     // Disables automatic handling of ports. This disables the reset of the
@@ -527,7 +403,7 @@ export default {
       return false;
     };
 
-    // 动画 edge animation
+    // edge animation
     // const selectCells = mxConnectionHandler.prototype.selectCells;
 
     // graph.connectionHandler.selectCells = function (edge, target) {
@@ -703,7 +579,7 @@ export default {
     }
   },
 
-  // 初始化 VertexToolHandler，定制
+  // init VertexToolHandler
   initVertexToolHandler(config) {
     const { graph } = config;
 
@@ -878,7 +754,6 @@ export default {
     };
   },
 
-  // 定制双击事件
   handleDoubleClick(config) {
     const { graph, callback } = config;
 
@@ -894,7 +769,6 @@ export default {
     });
   },
 
-  // 定制单击事件
   handleClick(config) {
     const { graph, callback } = config;
 
@@ -1113,118 +987,19 @@ export default {
     });
   },
 
-  // 定制 html label
   htmlLable(config) {
     const { graph } = config;
 
     // Enables HTML labels
     graph.setHtmlLabels(true);
 
-    // // Enables rubberband selection
-    // new mxRubberband(graph);
-
     // Creates a user object that stores the state
     const doc = mxUtils.createXmlDocument (); //eslint-disable-line
     const obj = doc.createElement('UserObject');
     obj.setAttribute('label', 'Hello, World!');
     obj.setAttribute('checked', 'false');
-
-    // // Adds optional caching for the HTML label
-    // var cached = true;
-
-    // if (cached) {
-    //   // Ignores cached label in codec
-    //   mxCodecRegistry.getCodec(mxCell).exclude.push('div');
-
-    //   // Invalidates cached labels
-    //   graph.model.setValue = function (cell, value) {
-    //     cell.div = null;
-    //     mxGraphModel.prototype.setValue.apply(this, arguments);
-    //   };
-    // }
-
-    // // Overrides method to provide a cell label in the display
-    // graph.convertValueToString = function (cell) {
-    //   if (cached && cell.div != null) {
-    //     // Uses cached label
-    //     return cell.div;
-    //   } else if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-    //     // Returns a DOM for the label
-    //     var div = document.createElement('div');
-    //     div.innerHTML = cell.getAttribute('label');
-    //     mxUtils.br(div);
-
-    //     var checkbox = document.createElement('input');
-    //     checkbox.setAttribute('type', 'checkbox');
-
-    //     if (cell.getAttribute('checked') == 'true') {
-    //       checkbox.setAttribute('checked', 'checked');
-    //       checkbox.defaultChecked = true;
-    //     }
-
-    //     // Writes back to cell if checkbox is clicked
-    //     mxEvent.addListener(checkbox, (mxClient.IS_QUIRKS) ? 'click' : 'change', function (evt) {
-    //       var elt = cell.value.cloneNode(true);
-    //       elt.setAttribute('checked', (checkbox.checked) ? 'true' : 'false');
-
-    //       graph.model.setValue(cell, elt);
-    //     });
-
-    //     div.appendChild(checkbox);
-
-    //     if (cached) {
-    //       // Caches label
-    //       cell.div = div;
-    //     }
-
-    //     return div;
-    //   }
-
-    //   return '';
-    // };
-
-    // // Overrides method to store a cell label in the model
-    // var cellLabelChanged = graph.cellLabelChanged;
-    // graph.cellLabelChanged = function (cell, newValue, autoSize) {
-    //   if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-    //     // Clones the value for correct undo/redo
-    //     var elt = cell.value.cloneNode(true);
-    //     elt.setAttribute('label', newValue);
-    //     newValue = elt;
-    //   }
-
-    //   cellLabelChanged.apply(this, arguments);
-    // };
-
-    // // Overrides method to create the editing value
-    // var getEditingValue = graph.getEditingValue;
-    // graph.getEditingValue = function (cell) {
-    //   if (mxUtils.isNode(cell.value) && cell.value.nodeName.toLowerCase() == 'userobject') {
-    //     return cell.getAttribute('label');
-    //   }
-    // };
-
-    const parent = graph.getDefaultParent();
-    graph.insertVertex(parent, null, obj, 20, 20, 80, 60);
-
-    // // Undo/redo
-    // var undoManager = new mxUndoManager();
-    // var listener = function (sender, evt) {
-    //   undoManager.undoableEditHappened(evt.getProperty('edit'));
-    // };
-    // graph.getModel().addListener(mxEvent.UNDO, listener);
-    // graph.getView().addListener(mxEvent.UNDO, listener);
-
-    // document.body.appendChild(mxUtils.button('Undo', function () {
-    //   undoManager.undo();
-    // }));
-
-    // document.body.appendChild(mxUtils.button('Redo', function () {
-    //   undoManager.redo();
-    // }));
   },
 
-  // 自动保存
   initAutoSave(config) {
     const { graph, callback } = config;
 
@@ -1246,13 +1021,10 @@ export default {
       graph.xmlStr = xmlStr;
 
       callback && callback(xmlStr);
-
-      // mxLog.show();
-      // mxLog.debug('save');
     };
   },
 
-  // 检查 xmlNode 的格式是否符合 mxgraph 规范，避免画布操作异常
+  // check the xmlnode format to avoid error
   formatXmlNode(xmlNode) {
     const rootEle = xmlNode && xmlNode.firstElementChild;
     
@@ -1267,7 +1039,7 @@ export default {
     }
 
     if (!(hasRoot && hasIdO)) {
-      console.warn('xmlNode 不符合 mxgraph 解析规范，必须拥有 root 节点，且 root 的子节点 id 从 0 开始');
+      console.warn('xmlNode must have root node');
       return false;
     }
 
@@ -1281,12 +1053,12 @@ export default {
       if (idsArr.indexOf(cellId) === -1) {
         idsArr.push(cellId);
       } else {
-        console.warn('节点id重复，删除冗余节点', element);
+        console.warn('cell id is duplicated, delete the needless one', element);
         rootEle.removeChild(element);
       }
 
       if (element && element.getAttribute('vertex') === '1' && element.getAttribute('edge') === '1') {
-        console.warn('cell 的 vertex 和 edge 属性不能同时为 1，将 cell 的 edge 属性置为 0', element);
+        console.warn('cell\'s property vertex and edge cannot both be 1, set property edge to 0', element);
         element.setAttribute('edge', 0);
       }
     });
@@ -1411,48 +1183,6 @@ export default {
     graph.refresh();
   },
 
-  // parsePropsInSvg(config) {
-
-  //   const {
-  //     graph
-  //   } = config;
-
-  //   var parent = graph.getDefaultParent();
-  //   var parentChildren = parent.children;
-  //   var arrEdge = []; //连接线
-  //   var arrVertex = []; //节点
-  //   //获取所有信息
-  //   for (var i = 0; i < parentChildren.length; i++) {
-  //     var child = parentChildren[i];
-  //     if (!child.isVisible()) {
-  //       continue;
-  //     }
-  //     //区分连接线、节点
-  //     if (child.isEdge()) {
-  //       var obj = new Object();
-  //       obj.ID = child.id;
-  //       obj.SourceID = child.source.id;
-  //       obj.TargetID = child.target.id;
-  //       arrEdge.push(obj)
-
-  //       const state = new mxCellState(graph.view, child);
-
-  //       debugger;
-
-  //     } else if (child.isVertex()) {
-  //       var obj = new Object();
-  //       obj.ID = child.id;
-  //       obj.Name = child.value;
-  //       obj.LeftTopX = child.geometry.x;
-  //       obj.LeftTopY = child.geometry.y;
-  //       arrVertex.push(obj);
-  //     }
-  //   }
-
-  //   debugger;
-
-  // },
-
   updateStyle(graph, cell, key, value) {
     const model = graph.getModel();
 
@@ -1501,8 +1231,7 @@ export default {
   },
 
   /**
-   * 移除全局事件，避免干扰其他单页面应用组件
-   * 目前所有
+   * remove event listeners
    */
   removeEventListeners() {
     document.body.removeEventListener('keydown', this.undoListenerFunc2);
@@ -1510,7 +1239,6 @@ export default {
     document.body.removeEventListener('keydown', this.deleteListenerFunc2);
   },
 
-  // 开始移动画布
   startPanning(graph) {
     // graph.setPanning(true);
     // Enables panning with left mouse button
@@ -1519,14 +1247,12 @@ export default {
     graph.container.style.cursor = 'move';
   },
 
-  // 停止移动画布
   stopPanning(graph) {
     graph.panningHandler.useLeftButtonForPanning = false;
     graph.panningHandler.ignoreCell = false;
     graph.container.style.cursor = 'auto';
   },
 
-  // 从数组中按筛选条件选择对象
   findItemFromArray(arr, query) {
     const key = Object.keys(query)[0];
     const value = query[key];

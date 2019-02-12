@@ -130,14 +130,6 @@ export default class Editor {
     util.vertexRenameListener({
       callback: valueChangeFunc,
     });
-
-    const sidebarItems = document.querySelectorAll('.custom-sidebar-node');
-
-    util.initSidebar({
-      graph,
-      sidebarItems,
-      cellCreatedFunc: this.cellCreatedFunc,
-    });
   }
 
   // init sidebar
