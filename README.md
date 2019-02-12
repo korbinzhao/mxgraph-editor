@@ -1,7 +1,7 @@
 # mxgraph-editor
 A mxGraph editor support 3 types of shapes, svg/image/card. 
 
-![](https://img.alicdn.com/tfs/TB1UdRyGXzqK1RjSZFoXXbfcXXa-2880-1416.png)
+![](https://img.alicdn.com/tfs/TB17cJ1GXzqK1RjSZSgXXcpAVXa-2880-1416.png)
 
 # development
 ```
