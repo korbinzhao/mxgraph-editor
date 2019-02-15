@@ -13,12 +13,13 @@
     "type": "git",
     "url": "git@github.com:korbinzhao/mxgraph-editor.git"
   },
-  "keywords": [],
+  "keywords": ["mxgraph", "editor", "mxgraph editor"],
   "author": "korbinzhao",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/korbinzhao/mxgraph-editor/issues"
   },
-  "homepage": "",
+  "license": "MIT",
+  "homepage": "https://github.com/korbinzhao/mxgraph-editor",
   "devDependencies": {
     "autoprefixer": "^9.4.3",
     "babel-cli": "^6.26.0",
