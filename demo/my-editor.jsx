@@ -126,6 +126,8 @@ class MyEditor extends React.Component {
 
   updateDiagramData = (data) => {
     console.log(`update diagram: ${data}`);
+
+    message.info('diagram save success');
   }
 
   render() {

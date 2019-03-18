@@ -35,9 +35,9 @@ class Toolbar extends React.Component {
         <div
           className="toolbar-btn"
           onClick={() => {
-            updateDiagramData(null, () => {
-              message.info('diagram save success');
-            });
+            const diagramXml = window.localStorage.getItem('autosaveXml');
+
+            updateDiagramData(diagramXml);
           }}
         >
           <img className="icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQBAMAAAB8P++eAAAAKlBMVEVHcEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHrpZrAAAADXRSTlMA+pZAwX/f0PBapw4o4hbINAAAAVNJREFUSMft1j1Lw0AcBvDTYmvbxUFwCgjOQtTBxW6Cg7gIHUQK7hKo6Cr4AQxkcc8XEFx0FlwcXIJvofB8F/93yaXtvSQ3OJV7htALvyb/kIM8jC1cdq9gzcbW1O2jNtfSdYN6mCUl3EFDPksYNcGf8s70M7+JkR1qCZAf8bmKe/fIJexE/m82Eb7YCsFUrNpiCCtkI+BCrFaBsQ4/KkgXuhOnlsSlFdjDsYQ02pqEmxocYSLhci0slk4Q/w5zN7jt+jDvuLfCbBb2h690DAzwEQjVN9gCH0CB9EYvVfgCfGtwQHvobG8uD7HYLgrsmPfsWIMtMww1yIfUQyNqsBvrLk8MkD3fqu73nJkg67/NP/XBEzNDSzz00EMPPWyGaR2sqkJRPuzpyPLRnnYqYwayzvCCFNod/6ykVeVaH9pyGlWVy7nEuddC56LpXF3dy/Ci5A/XP8FNp6uo9QAAAABJRU5ErkJggg==" alt="保存" />
